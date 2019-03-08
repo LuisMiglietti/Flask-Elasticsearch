@@ -29,6 +29,10 @@ class FlaskElasticsearch(object):
         else:
             app.teardown_request(self.teardown)
 
+        if not hasattr(app, 'extensions'):
+            app.extensions = {}
+        app.extensions['elasticsearch'] = self
+
     def __getattr__(self, item):
         ctx = stack.top
         if ctx is not None:
